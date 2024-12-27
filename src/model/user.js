@@ -33,8 +33,8 @@ userSchema.plugin(any)
 //   next();
 // });
 
-userSchema.methods.matchPassword = async function (password) {
-  return await password == this.password
+userSchema.methods.matchPassword = function (password) {
+  return password == this.password
 };
 
 module.exports = mongoose.model('User', userSchema);

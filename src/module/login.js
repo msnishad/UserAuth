@@ -6,17 +6,22 @@ const loginUsers = async (req,res) => {
 
     const { username, password, email, role} = req.body;
 
-    const user = await User.exists({ username })
+    const userExists = await User.exists({ username })
 
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+    if (!userExists) {
+      return res.status(400).json({ message: 'User does not exists' });
     }
 
-    const isMatch = user.matchPassword(password);
-    if(isMatch) {
+    const user = await User.findOne({ username });
+    const succ = user.matchPassword(password); 
+    if(succ) {
         res.json({
             message: 'Login successful',
-            roken: 'token',
+            token: 'token',
+        });
+    } else {
+        res.json({
+            message: 'Invalid Credentials',
         });
     }
 
