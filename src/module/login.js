@@ -5,7 +5,7 @@ const User = require("../model/user")
 const loginUsers = async (req,res) => {
 
     const { username, password, email, role} = req.body;
-
+    
     const userExists = await User.exists({ username })
 
     if (!userExists) {
@@ -20,7 +20,7 @@ const loginUsers = async (req,res) => {
             token: 'token',
         });
     } else {
-        res.json({
+        res.status(400).json({
             message: 'Invalid Credentials',
         });
     }
